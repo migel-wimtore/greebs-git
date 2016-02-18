@@ -75,21 +75,18 @@ public class MyGreep extends Greep
                // }
             }
         }
-        else if(getTomatoes() != null){
+        else {
+            checkFood();
+            if(stop == true){
                loadTomato(); 
                turnTowards(getMemory(1), getMemory(2));
                move();
-            }else if (numberOfOpponents(true) > 1) {
-            // Can we see four or more opponents?
-            kablam();            
-        } else if (numberOfOpponents(false) > 3) {
-            // Can we see four or more opponents?
-            kablam();            
-        }else{
+            }else{
                 
             randomWalk();
         }
         }
+    }
     
     /** 
      * Move forward, with a slight chance of turning randomly
