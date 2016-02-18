@@ -45,7 +45,7 @@ public class MyGreep extends Greep
 {
     // Remember: you cannot extend the Greep's memory. So:
     // no additional fields (other than final fields) allowed in this class!
-    private boolean stop = false;
+    private boolean tomatoFound = false;
     
     /**
      * Default constructor. Do not remove.
@@ -70,9 +70,6 @@ public class MyGreep extends Greep
             else {
                 turnHome();
                 move();
-                //if(){
-                  // randomWalk(); 
-               // }
             }
         }
         else if(getTomatoes() != null){
@@ -80,13 +77,12 @@ public class MyGreep extends Greep
                turnTowards(getMemory(1), getMemory(2));
                move();
             }else if (numberOfOpponents(true) > 1) {
-            // Can we see four or more opponents?
+            // If we see two or more opponents with tomatos
             kablam();            
         } else if (numberOfOpponents(false) > 3) {
-            // Can we see four or more opponents?
+            // If we see 4 or more opponents. 
             kablam();            
         }else{
-                
             randomWalk();
         }
         }
@@ -112,15 +108,15 @@ public class MyGreep extends Greep
         // check whether there's a tomato pile here
         TomatoPile tomatoes = getTomatoes();
         if(tomatoes != null) {
-            stop = true;
+            //Sets greep memory to tomatos coordinates.
+            tomatoFound = true;
             loadTomato();
             setMemory(1, tomatoes.getX());
             setMemory(2, tomatoes.getY());
             if(carryingTomato() == true){
-                stop = false;
+                //if greep has a tomato on his back start moving.
+                tomatoFound = false;
             }
-            // Note: this attempts to load a tomato onto *another* Greep. It won't
-            // do anything if we are alone here.
         }
     }
 
