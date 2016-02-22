@@ -85,16 +85,24 @@ public class MyGreep extends Greep
         }else{
             randomWalk();
         }
-        }
+        
+        // Avoid obstacles
+        if (atWater() || moveWasBlocked()) {
+            // If we were blocked, try to move somewhere else
+            int r = getRotation();
+            setRotation (r + Greenfoot.getRandomNumber(5) * 180 - 55);
+            move();
+        }        
+    }
     
     /** 
      * Move forward, with a slight chance of turning randomly
      */
     public void randomWalk()
     {
-        // there's a 3% chance that we randomly turn a little off course
-        if (randomChance(3)) {
-            turn((Greenfoot.getRandomNumber(3) - 1) * 100);
+        // there's a 6% chance that we randomly turn a little off course
+        if (randomChance(6)) {
+            turn((Greenfoot.getRandomNumber(6) - 1) * 100);
         }
         
         move();
@@ -119,7 +127,33 @@ public class MyGreep extends Greep
             }
         }
     }
+    
+    /**
+     * If we are at a tomato pile and none of our friends are blocking, we will block.
+     * 
+     * @return True if we are blocking, false if not.
+     */
+    private boolean blockAtPile(TomatoPile tomatoes) 
+    {
+        // Are we at the centre of the pile of tomatoes?  
+        boolean atPileCentre = tomatoes != null && distanceTo(tomatoes.getX(), tomatoes.getY()) < 4;
+        if(atPileCentre && getFriend() == null ) {
+            // No friends at this pile, so we might as well block
+            block(); 
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
+        private int distanceTo(int x, int y)
+    {
+        int deltaX = getX() - x;
+        int deltaY = getY() - y;
+        return (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+    
     /**
      * This method specifies the name of the greeps (for display on the result board).
      * Try to keep the name short so that it displays nicely on the result board.
