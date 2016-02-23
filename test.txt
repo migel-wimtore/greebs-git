@@ -73,9 +73,11 @@ public class MyGreep extends Greep
             }
         }
         else if(getTomatoes() != null){
-               loadTomato(); 
+            TomatoPile tomatoes = getTomatoes();
+            if(!blockAtPile(tomatoes)){
                turnTowards(getMemory(1), getMemory(2));
                move();
+               }
             }else if (numberOfOpponents(true) > 1) {
             // If we see two or more opponents with tomatos
             kablam();            
@@ -87,12 +89,18 @@ public class MyGreep extends Greep
         }
         
         // Avoid obstacles
-        if (atWater() || moveWasBlocked()) {
-            // If we were blocked, try to move somewhere else
+        if(atWater() || moveWasBlocked()) {
             int r = getRotation();
-            setRotation (r + Greenfoot.getRandomNumber(5) * 180 - 55);
+            if(randomChance(50) == true) {
+            setRotation (r + Greenfoot.getRandomNumber(5) * 180 - 90);
             move();
-        }        
+            }
+            else {
+            setRotation (r + Greenfoot.getRandomNumber(5) * 180 - 35);
+            move();
+            }         
+        }
+        
     }
     
     /** 
@@ -102,7 +110,7 @@ public class MyGreep extends Greep
     {
         // there's a 6% chance that we randomly turn a little off course
         if (randomChance(6)) {
-            turn((Greenfoot.getRandomNumber(6) - 1) * 100);
+            turn((Greenfoot.getRandomNumber(3) - 1) * 100);
         }
         
         move();
